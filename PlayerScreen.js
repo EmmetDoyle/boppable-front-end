@@ -16,16 +16,17 @@ export class PlayerScreen extends Component
 		super();
 	}
 	
-
-
-	render()
-	{
+	componentDidMount() {
 		Spotify.playURI("spotify:track:7xyX8M8Pklyq9jFcYlaYpU", 0, 52, (error) => {
       		if(error){
           		console.log(error);
       		}
     	});
+	}
 
+
+	render()
+	{
 		return (
 			<View style={styles.container}>
 				<Text style={styles.greeting}>
