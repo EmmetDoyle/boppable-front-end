@@ -16,8 +16,19 @@ export class PlayerScreen extends Component
 		super();
 	}
 	
-	getSong(){
-		Spotify.playURI("spotify:track:7xyX8M8Pklyq9jFcYlaYpU", 0, 52, (error) => {
+	getSongFromApi() {
+    	return fetch('https://droybavncz.localtunnel.me//songs/1/')
+      	.then((response) => response.json())
+      	.then((responseJson) => {
+        	this.getSong(responseJson)
+      	})
+      	.catch((error) => {
+        	console.error(error);
+      	});		
+	}
+
+	getSong(song){
+		Spotify.playURI(song.trackID, song.indexID, song.startPosition, (error) => {
       		if(error){
           		console.log(error);
       		}
@@ -25,7 +36,7 @@ export class PlayerScreen extends Component
 	}
 
 	componentDidMount() {
-		this.getSong
+		this.getSongFromApi()
 	}
 
 
