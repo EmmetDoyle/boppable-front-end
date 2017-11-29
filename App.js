@@ -1,4 +1,13 @@
+/* 
 
+This code has been copied from the Example folder of the react-native-spotify
+module. The code is not being presented as my own work and is merely being
+used a framework to test out the Spotify module.
+
+My own additions to this example are in PlayerScreen.js
+
+
+*/
 import React, { Component } from 'react';
 import {
   Alert,
