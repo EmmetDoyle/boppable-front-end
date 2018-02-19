@@ -8,19 +8,28 @@ import {
     View,
     ListView,
 } from 'react-native';
-import { StackNavigator } from 'react-navigation';
+import {StackNavigator, TabNavigator} from 'react-navigation';
 import Spotify from 'react-native-spotify';
+import VoteScreen from './app/screens/VoteScreen';
+import SearchScreen from './app/screens/SearchScreen';
 
 var { InitialScreen } = require("./InitialScreen.js");
 var { PlayerScreen } = require("./PlayerScreen.js");
-var { VoteScreen } = require("./app/screens/VoteScreen.js");
-var { SearchScreen } = require("./app/screens/SearchScreen.js");
+
+export const Tabs = TabNavigator({
+    Vote: {
+        screen: VoteScreen,
+    },
+    PlayerScreen: {
+        screen: PlayerScreen,
+    },
+    SearchScreen: {
+        screen: SearchScreen,
+    },
+});
 
 export default App = StackNavigator({
-    initial: { screen:InitialScreen },
-    player: { screen:PlayerScreen },
-    //vote: { screen:VoteScreen },
-    //search: { screen:SearchScreen},
+    player: { screen:Tabs },
 },{
   headerMode: 'screen',
 });
