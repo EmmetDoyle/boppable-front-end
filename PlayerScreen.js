@@ -13,59 +13,32 @@ import React, { Component } from 'react';
 import {
 	StyleSheet,
 	Text,
-	View
+	View,
+    ListView,
+    ActivityIndicator
 } from 'react-native';
+
+import Party from './app/components/Party'
 
 export class PlayerScreen extends Component
 {
 	static navigationOptions = {
-		title: 'Player',
+		header: null,
 	};
 
 	constructor()
 	{
 		super();
 	}
-	
 
-	/* BEGIN OWN WORK */
-
-	//Get song from API, parse JSON, call get song with returned data
-	getSongFromApi() {
-    	return fetch('https://droybavncz.localtunnel.me//songs/1/')
-      	.then((response) => response.json())
-      	.then((responseJson) => {
-        	this.getSong(responseJson)
-      	})
-      	.catch((error) => {
-        	console.error(error);
-      	});		
-	}
-
-	// Read in song object as parameter. 
-	// Call spotify's playURI() method with song attributes
-	getSong(song){
-		Spotify.playURI(song.trackID, song.indexID, song.startPosition, (error) => {
-      		if(error){
-          		console.log(error);
-      		}
-    	});		
-	}
-
-	// Retrieve and play a song
-	componentDidMount() {
-		this.getSongFromApi()
-	}
-
-	/* END OWN WORK */
 
 	render()
 	{
 		return (
 			<View style={styles.container}>
-				<Text style={styles.greeting}>
-					This is the player screen
-				</Text>
+                <Party />
+
+
 			</View>
 		);
 	}
