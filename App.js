@@ -12,6 +12,7 @@ import {StackNavigator, TabNavigator} from 'react-navigation';
 import Spotify from 'react-native-spotify';
 import VoteScreen from './app/screens/VoteScreen';
 import SearchScreen from './app/screens/SearchScreen';
+import Party from "./app/components/Party";
 
 var { InitialScreen } = require("./InitialScreen.js");
 var { PlayerScreen } = require("./PlayerScreen.js");
@@ -19,16 +20,30 @@ var { PlayerScreen } = require("./PlayerScreen.js");
 export const Tabs = TabNavigator({
     Vote: {
         screen: VoteScreen,
+        navigationOptions: {
+            title: 'Vote',
+            header: null,
+        },
     },
-    PlayerScreen: {
+    Party: {
         screen: PlayerScreen,
     },
-    SearchScreen: {
+    Request: {
         screen: SearchScreen,
+        navigationOptions: {
+            title: 'Request',
+            header: null,
+        },
+    },
+},{
+    tabBarPosition: 'bottom',
+    tabBarOptions: {
+        initialRouteName: 'Request',
     },
 });
 
 export default App = StackNavigator({
+    inital: { screen:InitialScreen },
     player: { screen:Tabs },
 },{
   headerMode: 'screen',

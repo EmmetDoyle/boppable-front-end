@@ -25,8 +25,6 @@ export default class Party extends Component {
 
                 <RequestList/>
 
-                <Navbar/>
-
             </View>
         )
     }
