@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import {
+    Alert,
     StyleSheet,
     View,
     Text,
@@ -9,6 +10,10 @@ import {
 } from 'react-native';
 
 export default class SearchResult extends Component {
+    onPressButton() {
+        Alert.alert('Track added to the playlist!')
+    }
+
     render(){
         return(
             <View style={styles.ResultContainer}>
@@ -32,6 +37,7 @@ export default class SearchResult extends Component {
                         <Button
                             style={styles.RequestTrack}
                             title="Bop"
+                            onPress={this.onPressButton}
                         />
                     </View>
                 </View>

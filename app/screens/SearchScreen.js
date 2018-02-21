@@ -4,71 +4,40 @@ import {
     StyleSheet,
     Text,
     View,
-    ActivityIndicator
+    ActivityIndicator,
+    TextInput,
 } from 'react-native';
 
 import Request from '../components/Request';
 import SearchResult from '../components/SearchResult';
 
 import Spotify from 'react-native-spotify';
+import SearchResultList from "../components/SearchResultList";
 
 export default class SearchScreen extends Component
 {
     constructor(props){
         super(props);
         this.state = {
-            isLoading: true,
-            results: [],
+            text: '',
         };
     }
 
-    componentDidMount(){
-
-        var queryString = "power";
-        var typeArray = ['track'];
-
-        Spotify.search(queryString, typeArray, null, (result, error) => {
-            if(error){
-                console.log(error);
-            }
-
-            if(result){
-                console.log(result);
-                const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-
-                this.setState({
-                    isLoading: false,
-                    results: ds.cloneWithRows(result.tracks.items)
-                });
-
-                console.log(this.state.results);
-            }
-
-        })
+    handleChangeText = (typedText) => {
+        this.setState({text: typedText});
     }
+
 
     render()
     {
-        if(this.state.isLoading){
-            return(
-                <View style={styles.RequestsContainer}>
-                    <ActivityIndicator />
-                </View>
-            )
-        }
         return (
             <View style={styles.RequestsContainer}>
-                <View style={styles.RequestList}>
-                    <ListView
-                        dataSource={this.state.results}
-                        renderRow={
-                            (rowData) => <SearchResult
-                                requestTrack={rowData.name}
-                                requestArtist={rowData.artists[0].name}
-                            />
-                        }
-                    />
-                </View>
+                <TextInput
+                    style={{height: 40}}
+                    placeholder="Search for a song here"
+                    onChangeText={this.handleChangeText}
+                />
+                <SearchResultList searchQuery={this.state.text}/>
             </View>
         );
     }
