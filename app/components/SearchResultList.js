@@ -34,7 +34,7 @@ export default class SearchResultList extends Component
             }
 
             if(result){
-                console.log(result);
+                //console.log(result);
                 const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
                 this.setState({
@@ -42,9 +42,9 @@ export default class SearchResultList extends Component
                     results: ds.cloneWithRows(result.tracks.items)
                 });
 
-                console.log(this.state.results);
+                //console.log(this.state.results);
             }
-
+            console.log("searching again");
         })
     }
 
@@ -52,8 +52,10 @@ export default class SearchResultList extends Component
 
     }
 
-    componentDidUpdate(){
-        this.searchTracks()
+    componentDidUpdate(prevProps){
+        if(this.props.searchQuery != prevProps.searchQuery){
+            this.searchTracks()
+        }
     }
 
     render()
