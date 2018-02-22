@@ -13,6 +13,7 @@ import SearchResult from '../components/SearchResult';
 
 import Spotify from 'react-native-spotify';
 import SearchResultList from "../components/SearchResultList";
+import SearchBar from "../components/SearchBar";
 
 export default class SearchScreen extends Component
 {
@@ -21,9 +22,11 @@ export default class SearchScreen extends Component
         this.state = {
             text: '',
         };
+
+        this.changeText = this.changeText.bind(this);
     }
 
-    handleChangeText = (typedText) => {
+    changeText(typedText) {
         this.setState({text: typedText});
     }
 
@@ -32,11 +35,7 @@ export default class SearchScreen extends Component
     {
         return (
             <View style={styles.RequestsContainer}>
-                <TextInput
-                    style={{height: 40}}
-                    placeholder="Search for a song here"
-                    onChangeText={this.handleChangeText}
-                />
+                <SearchBar onChange={this.changeText}/>
                 <SearchResultList searchQuery={this.state.text}/>
             </View>
         );

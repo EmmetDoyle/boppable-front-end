@@ -74,6 +74,7 @@ export default class SearchResultList extends Component
                             (rowData) => <SearchResult
                                 requestTrack={rowData.name}
                                 requestArtist={rowData.artists[0].name}
+                                requestURI={rowData.uri}
                             />
                         }
                     />

@@ -9,9 +9,22 @@ import {
     Button,
 } from 'react-native';
 
+import Spotify from 'react-native-spotify';
+
 export default class SearchResult extends Component {
+
+    constructor(props) {
+        super(props);
+
+        this.onPressButton = this.onPressButton.bind(this);
+    }
+
     onPressButton() {
-        Alert.alert('Track added to the playlist!')
+        Spotify.playURI(this.props.requestURI, 0, 0, (error) => {
+            if(error){
+                console.log(error);
+            }
+        });
     }
 
     render(){
