@@ -34,7 +34,7 @@ export default class SearchResultList extends Component
             }
 
             if(result){
-                //console.log(result);
+                console.log(result);
                 const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
                 this.setState({
@@ -42,7 +42,6 @@ export default class SearchResultList extends Component
                     results: ds.cloneWithRows(result.tracks.items)
                 });
 
-                //console.log(this.state.results);
             }
             console.log("searching again");
         })
@@ -76,6 +75,7 @@ export default class SearchResultList extends Component
                             (rowData) => <SearchResult
                                 requestTrack={rowData.name}
                                 requestArtist={rowData.artists[0].name}
+                                image={rowData.album.images[2].url}
                                 requestURI={rowData.uri}
                             />
                         }
@@ -91,7 +91,6 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#F5FCFF',
     },
     greeting: {
         fontSize: 20,
@@ -100,7 +99,6 @@ const styles = StyleSheet.create({
     },
 
     RequestsContainer: {
-        backgroundColor: '#bbbbbb',
         flex: 7,
     },
     RequestListTitleContainer: {

@@ -7,6 +7,7 @@ import {
     Text,
     ListView,
     Button,
+    Image,
 } from 'react-native';
 
 import Spotify from 'react-native-spotify';
@@ -32,15 +33,16 @@ export default class SearchResult extends Component {
             <View style={styles.ResultContainer}>
                 <View style={styles.Result}>
                     <View style={styles.ResultTrackImageContainer}>
-                        <Text style={styles.RequestTrackImage}>
-                            ART
-                        </Text>
+                        <Image source={{uri: this.props.image}}
+                               style={{width: 85, height: 85}} />
                     </View>
                     <View style={styles.ResultTrackInfoContainer}>
-                        <View style={styles.ResultTrackDetails}>
+                        <View style={styles.RequestTrackTitleContainer}>
                             <Text style={styles.RequestTrackTitle}>
                                 {this.props.requestTrack}
                             </Text>
+                        </View>
+                        <View style={styles.RequestTrackArtistContainer}>
                             <Text style={styles.RequestTrackArtist}>
                                 {this.props.requestArtist}
                             </Text>
@@ -51,6 +53,7 @@ export default class SearchResult extends Component {
                             style={styles.RequestTrack}
                             title="Bop"
                             onPress={this.onPressButton}
+                            color={'#00bb33'}
                         />
                     </View>
                 </View>
@@ -61,9 +64,8 @@ export default class SearchResult extends Component {
 
 const styles = StyleSheet.create({
 
-    //Requests
     ResultContainer: {
-        height: 80,
+        height: 95,
         paddingTop: 5,
         paddingBottom: 5,
         flexDirection: 'column',
@@ -71,25 +73,30 @@ const styles = StyleSheet.create({
     },
     Result: {
         flexDirection: 'row',
-        height: 70,
-        backgroundColor: '#dddddd',
-        borderColor: '#111111',
-        borderWidth: 1,
-        borderRadius: 10,
+        height: 85,
+        backgroundColor: '#303030',
     },
     ResultTrackImageContainer: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#cecece',
-        borderRadius: 4,
     },
     ResultTrackInfoContainer: {
         flex: 2,
         padding: 4,
-        borderLeftWidth: 1,
-        borderRightWidth: 1,
-        borderColor: '#111111',
+    },
+    RequestTrackTitleContainer: {
+        flex: 2,
+    },
+    RequestTrackTitle:{
+        color: 'white',
+    },
+    RequestTrackArtistContainer: {
+        flex: 1,
+    },
+    RequestTrackArtist:{
+        color: 'white',
+        fontWeight: 'bold',
     },
     ResultTrackDetails: {
         flex: 2,
@@ -100,7 +107,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     RequestTrack: {
-        fontSize: 30,
+
     },
 
 });

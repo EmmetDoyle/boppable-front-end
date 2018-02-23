@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#F5FCFF',
+        backgroundColor: '#040404',
     },
     greeting: {
         fontSize: 20,
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
     },
 
     RequestsContainer: {
-        backgroundColor: '#bbbbbb',
+        backgroundColor: '#040404',
         flex: 7,
     },
     RequestListTitleContainer: {

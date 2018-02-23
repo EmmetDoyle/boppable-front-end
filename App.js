@@ -39,6 +39,12 @@ export const Tabs = TabNavigator({
     tabBarPosition: 'bottom',
     tabBarOptions: {
         initialRouteName: 'Request',
+        indicatorStyle: {
+            backgroundColor: '#ffffff',
+        },
+        style: {
+            backgroundColor: '#00bb33',
+        }
     },
 });
 
