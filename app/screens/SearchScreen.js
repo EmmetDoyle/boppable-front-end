@@ -27,7 +27,10 @@ export default class SearchScreen extends Component
     }
 
     changeText(typedText) {
-        this.setState({text: typedText});
+        var encodedText = typedText.split(' ').join('+');
+
+        this.setState({text: encodedText});
+        console.log(this.state.text);
     }
 
 

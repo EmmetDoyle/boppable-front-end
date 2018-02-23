@@ -28,23 +28,25 @@ export default class SearchResultList extends Component
         var queryString = this.props.searchQuery;
         var typeArray = ['track'];
 
-        Spotify.search(queryString, typeArray, null, (result, error) => {
-            if(error){
-                console.log(error);
-            }
+        if(queryString != ''){
+            Spotify.search(queryString, typeArray, null, (result, error) => {
+                if(error){
+                    console.log(error);
+                }
 
-            if(result){
-                console.log(result);
-                const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+                if(result){
+                    console.log(result);
+                    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
-                this.setState({
-                    isLoading: false,
-                    results: ds.cloneWithRows(result.tracks.items)
-                });
+                    this.setState({
+                        isLoading: false,
+                        results: ds.cloneWithRows(result.tracks.items)
+                    });
 
-            }
-            console.log("searching again");
-        })
+                }
+                console.log("searching again");
+            })
+        }
     }
 
     componentDidMount(){
@@ -99,7 +101,7 @@ const styles = StyleSheet.create({
     },
 
     RequestsContainer: {
-        flex: 7,
+        flex: 11,
     },
     RequestListTitleContainer: {
         justifyContent: 'center',

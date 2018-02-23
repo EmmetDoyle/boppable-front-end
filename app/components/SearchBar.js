@@ -39,13 +39,14 @@ export default class SearchBar extends Component
 const styles = StyleSheet.create({
     searchBarContainer: {
         flex: 1,
+        minHeight: 20,
         justifyContent: 'center',
         alignItems: 'flex-start',
         backgroundColor: '#F5FCFF',
     },
     searchBar: {
         alignSelf: 'stretch',
-        padding: 5,
+        paddingLeft: 5,
     },
 
 });
