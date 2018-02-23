@@ -29,6 +29,9 @@ export default class SearchBar extends Component
                 <TextInput
                     style={styles.searchBar}
                     placeholder="Search for a song here"
+                    placeholderTextColor={'#ffffff'}
+                    selectionColor={'#ffffff'}
+                    underlineColorAndroid="transparent"
                     onChangeText={this.handleChangeText}
                 />
             </View>
@@ -38,15 +41,15 @@ export default class SearchBar extends Component
 
 const styles = StyleSheet.create({
     searchBarContainer: {
-        flex: 1,
-        minHeight: 20,
+        height: 48,
         justifyContent: 'center',
         alignItems: 'flex-start',
-        backgroundColor: '#F5FCFF',
+        padding: 5,
     },
     searchBar: {
         alignSelf: 'stretch',
-        paddingLeft: 5,
+        backgroundColor: '#303030',
+        color: 'white',
     },
 
 });
