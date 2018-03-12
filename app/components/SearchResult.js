@@ -17,7 +17,28 @@ export default class SearchResult extends Component {
     constructor(props) {
         super(props);
 
+        this.state = {
+            exists: false,
+        };
+
         this.onPressButton = this.onPressButton.bind(this);
+    }
+
+    componentDidMount(){
+        fetch('http://159.65.91.61:8000/trackvoting/exists/', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                track_id: this.props.requestID,
+                playlist: 1,
+            }),
+        }).then((response) => response.json())
+            .then((responseJson) => {
+                console.log(responseJson);
+            })
     }
 
     onPressButton() {
@@ -26,6 +47,24 @@ export default class SearchResult extends Component {
                 console.log(error);
             }
         });
+
+
+        console.log("Before fetch");
+        fetch('http://159.65.91.61:8000/trackvoting/', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                track_id: this.props.requestID,
+                votes: 1,
+                playlist: 1,
+                suggester: 1,
+            }),
+        });
+        console.log("After fetch");
+        console.log("");
     }
 
     render(){

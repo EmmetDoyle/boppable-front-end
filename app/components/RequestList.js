@@ -20,18 +20,20 @@ export default class RequestList extends Component {
     }
 
     componentDidMount(){
-        fetch("https://api.myjson.com/bins/r3gyl")
+        console.log("before API call");
+        fetch("http://159.65.91.61:8000/parties/0039/")
             .then((response) => response.json())
             .then((responseJson) => {
                 const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
-                console.log("Before setState");
+                console.log(responseJson);
+
                 this.setState({
                     isLoading: false,
-                    requests: ds.cloneWithRows(responseJson)
+                    requests: ds.cloneWithRows(responseJson.playlist.tracks)
                 });
-                console.log("After setState");
             })
+        console.log("after API call");
     }
 
     render(){
@@ -52,9 +54,8 @@ export default class RequestList extends Component {
                         dataSource={this.state.requests}
                         renderRow={
                             (rowData) => <Request votes={rowData.votes}
-                                                  requestTrack={rowData.requestTrack}
-                                                  requestArtist={rowData.requestArtist}
-                                                  suggesterName={rowData.suggesterName}
+                                                  track_id={rowData.track_id}
+                                                  suggester={rowData.suggester.name}
                             />
                         }
                     />

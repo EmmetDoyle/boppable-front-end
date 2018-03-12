@@ -8,7 +8,39 @@ import {
     Button,
 } from 'react-native';
 
+import Spotify from 'react-native-spotify';
+
+
 export default class Request extends Component {
+    constructor(props){
+        super(props);
+
+        this.state = {
+            track_name: "",
+            track_artist: "",
+        };
+    }
+
+    componentDidMount(){
+        Spotify.getTrack(this.props.track_id, null, (result, error) => {
+            if(error){
+                console.log(error);
+            }
+
+
+            console.log(this.state);
+            if(result){
+                this.setState({
+                    track_name: result.name,
+                    track_artist: result.artists[0].name,
+                })
+            }
+            console.log(this.state);
+            console.log(" ");
+
+        });
+    }
+
     render(){
         return(
             <View style={styles.RequestContainer}>
@@ -27,15 +59,15 @@ export default class Request extends Component {
                     <View style={styles.RequestTrackInfoContainer}>
                         <View style={styles.RequestTrackDetails}>
                             <Text style={styles.RequestTrackTitle}>
-                                {this.props.requestTrack}
+                                {this.state.track_name}
                             </Text>
                             <Text style={styles.RequestTrackArtist}>
-                                {this.props.requestArtist}
+                                {this.state.track_artist}
                             </Text>
                         </View>
                         <View style={styles.RequestSuggestedBy}>
                             <Text style={styles.RequestSuggestedByText}>
-                                {this.props.suggesterName}
+                                {this.props.suggester}
                             </Text>
                         </View>
                     </View>

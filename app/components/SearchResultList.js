@@ -45,6 +45,7 @@ export default class SearchResultList extends Component
 
                 }
                 console.log("searching again");
+                console.log(result);
             })
         }
     }
@@ -79,6 +80,7 @@ export default class SearchResultList extends Component
                                 requestArtist={rowData.artists[0].name}
                                 image={rowData.album.images[2].url}
                                 requestURI={rowData.uri}
+                                requestID={rowData.id}
                             />
                         }
                     />
