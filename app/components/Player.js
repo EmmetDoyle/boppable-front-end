@@ -64,7 +64,6 @@ const styles = StyleSheet.create({
     },
     PlayerTrackImageContainer: {
         flex: 2,
-        backgroundColor: '#cccccc',
         borderRadius: 6,
         justifyContent: 'center',
         alignItems: 'center',

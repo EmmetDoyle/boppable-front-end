@@ -20,7 +20,6 @@ export default class RequestList extends Component {
     }
 
     componentDidMount(){
-        console.log("before API call");
         fetch("http://159.65.91.61:8000/parties/0039/")
             .then((response) => response.json())
             .then((responseJson) => {
@@ -33,7 +32,6 @@ export default class RequestList extends Component {
                     requests: ds.cloneWithRows(responseJson.playlist.tracks)
                 });
             })
-        console.log("after API call");
     }
 
     render(){
@@ -70,7 +68,6 @@ const styles = StyleSheet.create({
     //Requests
 
     RequestsContainer: {
-        backgroundColor: '#bbbbbb',
         flex: 7,
     },
     RequestListTitleContainer: {

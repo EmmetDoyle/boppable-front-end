@@ -17,6 +17,17 @@ import Party from "./app/components/Party";
 var { InitialScreen } = require("./InitialScreen.js");
 var { PlayerScreen } = require("./PlayerScreen.js");
 
+// fetch logger
+global._fetch = fetch;
+global.fetch = function(uri, options, ...args) {
+    return global._fetch(uri, options, ...args).then((response) => {
+        console.log('Fetch', { request: { uri, options, ...args }, response });
+        return response;
+    });
+};
+
+GLOBAL.XMLHttpRequest = GLOBAL.originalXMLHttpRequest || GLOBAL.XMLHttpRequest;
+
 export const Tabs = TabNavigator({
     Vote: {
         screen: VoteScreen,

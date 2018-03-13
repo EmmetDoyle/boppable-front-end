@@ -7,6 +7,7 @@ import {
     ListView,
     Button,
     Alert,
+    Image,
 } from 'react-native';
 
 import Spotify from 'react-native-spotify';
@@ -19,8 +20,7 @@ export default class Request extends Component {
         this.state = {
             track_name: "",
             track_artist: "",
-            upvote_string: "http://159.65.91.61:8000/trackvoting/" + this.props.trackVotingID + "/upvote/",
-            downvote_string: "http://159.65.91.61:8000/trackvoting/" + this.props.trackVotingID + "/downvote/",
+            image: "",
         };
 
         this.onUpVote = this.onUpVote.bind(this);
@@ -39,7 +39,9 @@ export default class Request extends Component {
                 this.setState({
                     track_name: result.name,
                     track_artist: result.artists[0].name,
+                    image: result.album.images[2].url,
                 })
+                console.log("Image: " + this.state.image)
             }
             //console.log(this.state);
             //console.log(" ");
@@ -80,9 +82,8 @@ export default class Request extends Component {
                         />
                     </View>
                     <View style={styles.RequestTrackImageContainer}>
-                        <Text style={styles.RequestTrackImage}>
-                            ART
-                        </Text>
+                        <Image source={{uri: this.state.image}}
+                               style={{width: 75, height: 75}} />
                     </View>
                     <View style={styles.RequestTrackInfoContainer}>
                         <View style={styles.RequestTrackDetails}>
@@ -130,55 +131,52 @@ const styles = StyleSheet.create({
     },
     Request: {
         flexDirection: 'row',
-        height: 70,
-        backgroundColor: '#dddddd',
-        borderColor: '#111111',
-        borderWidth: 1,
-        borderRadius: 10,
+        height: 75,
+        backgroundColor: '#303030',
     },
     RequestDownVoteContainer: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        borderRightWidth: 1,
-        borderColor: '#111111',
     },
     RequestDownVote: {
         fontSize: 40,
     },
     RequestTrackImageContainer: {
         flex: 1,
+        minWidth: 25,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#cecece',
-        borderRadius: 4,
     },
     RequestTrackInfoContainer: {
         flex: 2,
         padding: 4,
-        borderLeftWidth: 1,
-        borderRightWidth: 1,
-        borderColor: '#111111',
     },
     RequestTrackDetails: {
         flex: 2,
+    },
+    RequestTrackTitle:{
+        color: 'white',
+    },
+    RequestTrackArtist:{
+        color: 'white',
     },
     RequestSuggestedBy: {
         flex: 1,
     },
     RequestSuggestedByText: {
         fontWeight: 'bold',
+        color: 'white',
     },
     RequestVoteCountContainer: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        borderRightWidth: 1,
-        borderColor: '#111111',
     },
     RequestVoteCount: {
         fontSize: 35,
         fontWeight: 'bold',
+        color: 'white',
     },
     RequestUpVoteContainer: {
         flex: 1,

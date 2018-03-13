@@ -44,8 +44,8 @@ export default class SearchResultList extends Component
                     });
 
                 }
-                console.log("searching again");
-                console.log(result);
+                // console.log("searching again");
+                // console.log(result);
             })
         }
     }

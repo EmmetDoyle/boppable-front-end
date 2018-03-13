@@ -19,37 +19,46 @@ export default class SearchResult extends Component {
 
         this.state = {
             exists: false,
+            buttonOption: "Bop"
         };
 
         this.onPressButton = this.onPressButton.bind(this);
+        this.trackDoesExist = this.trackDoesExist.bind(this);
     }
 
     componentDidMount(){
+        //this.trackDoesExist();
+    }
+
+    componentDidUpdate(){
+
+    };
+
+    trackDoesExist(){
+        //console.log("Before exists check");
+        //console.log(this.props.requestID);
         fetch('http://159.65.91.61:8000/trackvoting/exists/', {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
+                'Accept-Encoding': "",
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
                 track_id: this.props.requestID,
                 playlist: 1,
             }),
-        }).then((response) => response.json())
-            .then((responseJson) => {
-                console.log(responseJson);
-            })
+        }).then((response) => {
+            //console.log(response);
+            return response.json();
+        }).then((responseJson) => {
+            this.setState({exists: responseJson.exists})
+        })
+        //console.log("After exists check");
     }
 
     onPressButton() {
-        Spotify.playURI(this.props.requestURI, 0, 0, (error) => {
-            if(error){
-                console.log(error);
-            }
-        });
-
-
-        console.log("Before fetch");
+        //console.log("Before fetch");
         fetch('http://159.65.91.61:8000/trackvoting/', {
             method: 'POST',
             headers: {
@@ -62,9 +71,10 @@ export default class SearchResult extends Component {
                 playlist: 1,
                 suggester: 1,
             }),
-        });
-        console.log("After fetch");
-        console.log("");
+        }).then((response) => {
+            //console.log(response);
+        })
+        Alert.alert("Song requested!");
     }
 
     render(){
@@ -90,7 +100,7 @@ export default class SearchResult extends Component {
                     <View style={styles.RequestTrackContainer}>
                         <Button
                             style={styles.RequestTrack}
-                            title="Bop"
+                            title={this.state.buttonOption}
                             onPress={this.onPressButton}
                             color={'#00bb33'}
                         />

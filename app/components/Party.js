@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
 
     PartyContainer: {
         flex: 1,
-        backgroundColor: '#cecece',
+        backgroundColor: '#040404',
         alignSelf: 'stretch',
     },
 
