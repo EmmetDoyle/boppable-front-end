@@ -56,6 +56,7 @@ export default class RequestList extends Component {
                             (rowData) => <Request votes={rowData.votes}
                                                   track_id={rowData.track_id}
                                                   suggester={rowData.suggester.name}
+                                                  trackVotingID={rowData.id}
                             />
                         }
                     />

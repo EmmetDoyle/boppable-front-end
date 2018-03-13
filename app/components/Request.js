@@ -6,6 +6,7 @@ import {
     Text,
     ListView,
     Button,
+    Alert,
 } from 'react-native';
 
 import Spotify from 'react-native-spotify';
@@ -18,7 +19,12 @@ export default class Request extends Component {
         this.state = {
             track_name: "",
             track_artist: "",
+            upvote_string: "http://159.65.91.61:8000/trackvoting/" + this.props.trackVotingID + "/upvote/",
+            downvote_string: "http://159.65.91.61:8000/trackvoting/" + this.props.trackVotingID + "/downvote/",
         };
+
+        this.onUpVote = this.onUpVote.bind(this);
+        this.onDownVote = this.onDownVote.bind(this);
     }
 
     componentDidMount(){
@@ -35,10 +41,30 @@ export default class Request extends Component {
                     track_artist: result.artists[0].name,
                 })
             }
-            console.log(this.state);
-            console.log(" ");
+            //console.log(this.state);
+            //console.log(" ");
 
         });
+    }
+
+    onUpVote(){
+        Alert.alert("upvote pressed!");
+        console.log("Request string: ");
+        console.log(this.state.upvote_string);
+
+        fetch('http://159.65.91.61:8000/trackvoting/' + this.props.trackVotingID + '/upvote')
+            .then((response) => {
+                console.log(response.status);
+            })
+    }
+
+    onDownVote(){
+        Alert.alert("downvote pressed!");
+
+        fetch('http://159.65.91.61:8000/trackvoting/' + this.props.trackVotingID + '/downvote')
+            .then((response) => {
+                console.log(response.status);
+            })
     }
 
     render(){
@@ -49,6 +75,8 @@ export default class Request extends Component {
                         <Button
                             style={styles.RequestDownVote}
                             title="V"
+                            onPress={this.onDownVote}
+                            color={'#00bb33'}
                         />
                     </View>
                     <View style={styles.RequestTrackImageContainer}>
@@ -80,6 +108,8 @@ export default class Request extends Component {
                         <Button
                             style={styles.RequestUpVote}
                             title="^"
+                            onPress={this.onUpVote}
+                            color={'#00bb33'}
                         />
                     </View>
                 </View>
