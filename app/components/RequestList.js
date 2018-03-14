@@ -25,7 +25,7 @@ export default class RequestList extends Component {
             .then((responseJson) => {
                 const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
-                console.log(responseJson);
+                //console.log(responseJson);
 
                 this.setState({
                     isLoading: false,
@@ -44,9 +44,6 @@ export default class RequestList extends Component {
         }
         return(
             <View style={styles.RequestsContainer}>
-                <View style={styles.RequestListTitleContainer}>
-                    <Text style={styles.RequestListTitle}>Coming Up:</Text>
-                </View>
                 <View style={styles.RequestList}>
                     <ListView
                         dataSource={this.state.requests}

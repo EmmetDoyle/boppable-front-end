@@ -4,35 +4,72 @@ import {
     StyleSheet,
     View,
     Text,
+    Image,
 } from 'react-native';
+import Spotify from "react-native-spotify";
 
 export default class Player extends Component {
     constructor(props){
         super(props)
+
+        this.state = {
+            track_name: "",
+            track_artist: "",
+            track_uri: "",
+            image: "",
+            playing: false,
+        }
     }
 
 
     componentDidMount(){
+        Spotify.getTrack(this.props.track_id, null, (result, error) => {
+            if(error){
+                console.log(error);
+            }
 
+
+            //console.log(this.state);
+            if(result){
+                this.setState({
+                    track_name: result.name,
+                    track_artist: result.artists[0].name,
+                    image: result.album.images[1].url,
+                    track_uri: result.uri,
+                })
+            }
+        });
+    }
+
+    componentDidUpdate(prevProps, prevState){
+        if(this.state.uri != "" && !this.state.playing){
+            Spotify.playURI(this.state.track_uri, 0, 0, (error) => {
+                if (error){
+                    console.log(error);
+                }
+            })
+            this.setState({playing: true})
+        }
+    }
+
+    playSong(){
     }
 
     render(){
         return(
-
             <View style={styles.PlayerContainer}>
                 <View style={styles.PlayerComponents}>
                     <View style={styles.PlayerTrackImageContainer}>
-                        <Text style={styles.PlayerTrackImage}>
-                            [ Album Art Here ]
-                        </Text>
+                        <Image source={{uri: this.state.image}}
+                               style={{width: 150, height: 150}} />
                     </View>
                     <View style={styles.PlayerTrackInfoContainter}>
                         <View style={styles.PlayerTrackDetails}>
                             <Text style={styles.PlayerTrackTitle}>
-                                POWER
+                                {this.state.track_name}
                             </Text>
                             <Text style={styles.PlayerTrackArtist}>
-                                Kanye West
+                                {this.state.track_artist}
                             </Text>
                         </View>
                         <View style={styles.PlayerSuggestedBy}>
@@ -40,7 +77,7 @@ export default class Player extends Component {
                                 Suggested by:
                             </Text>
                             <Text style={styles.PlayerSuggesterText}>
-                                Emmet
+                                {this.props.suggester}
                             </Text>
                         </View>
                     </View>

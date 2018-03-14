@@ -34,18 +34,15 @@ export default class Request extends Component {
             }
 
 
-            console.log(this.state);
+            //console.log(this.state);
             if(result){
                 this.setState({
                     track_name: result.name,
                     track_artist: result.artists[0].name,
                     image: result.album.images[2].url,
                 })
-                console.log("Image: " + this.state.image)
+                //console.log("Image: " + this.state.image)
             }
-            //console.log(this.state);
-            //console.log(" ");
-
         });
     }
 

@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 
 import {
+    ListView,
     StyleSheet,
     View,
+    ActivityIndicator,
 } from 'react-native';
 
 import Header from "./Header";
@@ -13,15 +15,43 @@ import RequestList from "./RequestList";
 export default class Party extends Component {
     constructor(props){
         super(props);
+
+        this.state = {
+            user: 1,
+            party: '0039',
+            playingTrack: {},
+            isLoading: true,
+        };
+    }
+
+    componentDidMount(){
+        fetch("http://159.65.91.61:8000/parties/0039/")
+            .then((response) => response.json())
+            .then((responseJson) => {
+                console.log(responseJson);
+                this.setState({
+                    playingTrack: responseJson.playlist.tracks[0],
+                    isLoading: false
+                })
+                console.log(this.state.playingTrack)
+            })
     }
 
     render(){
+        if(this.state.isLoading){
+            return(
+                <View style={styles.RequestsContainer}>
+                    <ActivityIndicator />
+                </View>
+            )
+        }
         return(
             <View style={styles.PartyContainer}>
 
-                <Header/>
-
-                <Player/>
+                <Player
+                    suggester={this.state.playingTrack.suggester.name}
+                    track_id={this.state.playingTrack.track_id}
+                />
 
                 <RequestList/>
 
