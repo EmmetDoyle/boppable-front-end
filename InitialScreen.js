@@ -64,7 +64,7 @@ export class InitialScreen extends Component
 			"clientID":"47c9fc5ddf044654829aecd60b6ceb2c",
 			"sessionUserDefaultsKey":"SpotifySession",
 			"redirectURL":"boppable-app-login://callback",
-			"scopes": ["streaming"],
+			"scopes": ["streaming","user-read-playback-state","user-modify-playback-state"],
       		"tokenSwapURL": null,
       		"tokenRefreshURL": null
 		};

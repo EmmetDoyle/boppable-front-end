@@ -38,22 +38,21 @@ export default class Player extends Component {
                     track_uri: result.uri,
                 })
             }
+
+            this.playSong();
         });
     }
 
-    componentDidUpdate(prevProps, prevState){
+    playSong(){
         if(this.state.uri != "" && !this.state.playing){
             Spotify.playURI(this.state.track_uri, 0, 0, (error) => {
                 if (error){
                     console.log(error);
                 }
             })
-            this.setState({playing: true})
         }
     }
 
-    playSong(){
-    }
 
     render(){
         return(

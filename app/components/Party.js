@@ -20,20 +20,29 @@ export default class Party extends Component {
             user: 1,
             party: '0039',
             playingTrack: {},
+            playing: false,
+            requests: [],
             isLoading: true,
         };
     }
+
+    //
 
     componentDidMount(){
         fetch("http://159.65.91.61:8000/parties/0039/")
             .then((response) => response.json())
             .then((responseJson) => {
                 console.log(responseJson);
+
+                const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+
                 this.setState({
                     playingTrack: responseJson.playlist.tracks[0],
+                    requests: ds.cloneWithRows(responseJson.playlist.tracks.slice(1,-1)),
                     isLoading: false
                 })
                 console.log(this.state.playingTrack)
+                console.log(this.state.requests)
             })
     }
 
@@ -53,7 +62,9 @@ export default class Party extends Component {
                     track_id={this.state.playingTrack.track_id}
                 />
 
-                <RequestList/>
+                <RequestList
+                    requests={this.state.requests}
+                />
 
             </View>
         )

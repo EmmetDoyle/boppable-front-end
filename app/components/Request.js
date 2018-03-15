@@ -33,23 +33,18 @@ export default class Request extends Component {
                 console.log(error);
             }
 
-
-            //console.log(this.state);
             if(result){
                 this.setState({
                     track_name: result.name,
                     track_artist: result.artists[0].name,
                     image: result.album.images[2].url,
                 })
-                //console.log("Image: " + this.state.image)
             }
         });
     }
 
     onUpVote(){
         Alert.alert("upvote pressed!");
-        console.log("Request string: ");
-        console.log(this.state.upvote_string);
 
         fetch('http://159.65.91.61:8000/trackvoting/' + this.props.trackVotingID + '/upvote')
             .then((response) => {
