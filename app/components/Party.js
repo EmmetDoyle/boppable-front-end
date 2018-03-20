@@ -9,8 +9,9 @@ import {
 
 import Header from "./Header";
 import Navbar from "./Navbar";
-import Player from "./Player";
+import PlayerContainer from "./PlayerContainer";
 import RequestList from "./RequestList";
+import Spotify from "react-native-spotify";
 
 export default class Party extends Component {
     constructor(props){
@@ -24,26 +25,57 @@ export default class Party extends Component {
             requests: [],
             isLoading: true,
         };
+
+        this.togglePlaying = this.togglePlaying.bind(this);
     }
 
-    //
+    togglePlaying(playState){
+        this.setState({playing: playState});
+        //console.log(this.state.playing);
+    }
 
-    componentDidMount(){
+    getTracksFromApi(){
         fetch("http://159.65.91.61:8000/parties/0039/")
             .then((response) => response.json())
             .then((responseJson) => {
-                console.log(responseJson);
+                //console.log(this.state.playing);
 
                 const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
-                this.setState({
-                    playingTrack: responseJson.playlist.tracks[0],
-                    requests: ds.cloneWithRows(responseJson.playlist.tracks.slice(1,-1)),
-                    isLoading: false
-                })
-                console.log(this.state.playingTrack)
-                console.log(this.state.requests)
+                if(this.state.playing){
+                    //console.log("here");
+                    this.setState({
+                        requests: ds.cloneWithRows(responseJson.playlist.tracks),
+                        isLoading: false
+                    });
+                }else{
+                    this.setState({
+                        playingTrack: responseJson.playlist.tracks[0],
+                        requests: ds.cloneWithRows(responseJson.playlist.tracks.slice(1,-1)),
+                        isLoading: false
+                    });
+                }
             })
+    }
+
+    componentDidMount(){
+        this.getTracksFromApi();
+    }
+
+    shouldComponentUpdate(nextProps, nextState){
+        if(this.state.playing == nextState.playing){
+            if(this.state.isLoading != nextState.isLoading){
+                return true;
+            }
+            //playing didn't change so no need to update
+            return false;
+        } else {
+            return true;
+        }
+    };
+
+    componentDidUpdate(){
+        this.getTracksFromApi();
     }
 
     render(){
@@ -57,9 +89,11 @@ export default class Party extends Component {
         return(
             <View style={styles.PartyContainer}>
 
-                <Player
+                <PlayerContainer
                     suggester={this.state.playingTrack.suggester.name}
                     track_id={this.state.playingTrack.track_id}
+                    playing={this.state.playing}
+                    onTogglePlaying={this.togglePlaying}
                 />
 
                 <RequestList

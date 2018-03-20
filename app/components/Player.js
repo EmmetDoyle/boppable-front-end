@@ -11,46 +11,6 @@ import Spotify from "react-native-spotify";
 export default class Player extends Component {
     constructor(props){
         super(props)
-
-        this.state = {
-            track_name: "",
-            track_artist: "",
-            track_uri: "",
-            image: "",
-            playing: false,
-        }
-    }
-
-
-    componentDidMount(){
-        Spotify.getTrack(this.props.track_id, null, (result, error) => {
-            if(error){
-                console.log(error);
-            }
-
-
-            //console.log(this.state);
-            if(result){
-                this.setState({
-                    track_name: result.name,
-                    track_artist: result.artists[0].name,
-                    image: result.album.images[1].url,
-                    track_uri: result.uri,
-                })
-            }
-
-            this.playSong();
-        });
-    }
-
-    playSong(){
-        if(this.state.uri != "" && !this.state.playing){
-            Spotify.playURI(this.state.track_uri, 0, 0, (error) => {
-                if (error){
-                    console.log(error);
-                }
-            })
-        }
     }
 
 
@@ -59,16 +19,16 @@ export default class Player extends Component {
             <View style={styles.PlayerContainer}>
                 <View style={styles.PlayerComponents}>
                     <View style={styles.PlayerTrackImageContainer}>
-                        <Image source={{uri: this.state.image}}
+                        <Image source={{uri: this.props.image}}
                                style={{width: 150, height: 150}} />
                     </View>
                     <View style={styles.PlayerTrackInfoContainter}>
                         <View style={styles.PlayerTrackDetails}>
                             <Text style={styles.PlayerTrackTitle}>
-                                {this.state.track_name}
+                                {this.props.name}
                             </Text>
                             <Text style={styles.PlayerTrackArtist}>
-                                {this.state.track_artist}
+                                {this.props.artist}
                             </Text>
                         </View>
                         <View style={styles.PlayerSuggestedBy}>

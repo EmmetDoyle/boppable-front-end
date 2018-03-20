@@ -27,7 +27,7 @@ export default class Request extends Component {
         this.onDownVote = this.onDownVote.bind(this);
     }
 
-    componentDidMount(){
+    getTrackInfoFromApi(){
         Spotify.getTrack(this.props.track_id, null, (result, error) => {
             if(error){
                 console.log(error);
@@ -41,6 +41,14 @@ export default class Request extends Component {
                 })
             }
         });
+    }
+
+    componentDidMount(){
+        this.getTrackInfoFromApi()
+    }
+
+    componentDidUpdate(){
+        this.getTrackInfoFromApi()
     }
 
     onUpVote(){
