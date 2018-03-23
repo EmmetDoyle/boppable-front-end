@@ -10,6 +10,7 @@ import Spotify from "react-native-spotify";
 import Player from "./Player";
 
 export default class PlayerContainer extends Component {
+
     constructor(props){
         super(props)
 
@@ -25,8 +26,7 @@ export default class PlayerContainer extends Component {
         this.togglePlaystate = this.togglePlaystate.bind(this)
     }
 
-
-    componentDidMount(){
+    getAndPlayTrack(){
         Spotify.getTrack(this.props.track_id, null, (result, error) => {
             if(error){
                 console.log(error);
@@ -49,8 +49,25 @@ export default class PlayerContainer extends Component {
         });
     }
 
+    componentDidMount(){
+        this.getAndPlayTrack();
+    }
+
+    shouldComponentUpdate(nextProps, nextState){
+        if(this.props.playing == nextProps.playing){
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    componentDidUpdate(){
+        this.getAndPlayTrack();
+    }
+
     componentWillUnmount(){
-        clearInterval(this.interval);
+        console.log("in componentWillUnmount()");
+        clearTimeout(this.timer);
     }
 
     playSong(){
@@ -61,18 +78,18 @@ export default class PlayerContainer extends Component {
                 if (error) {
                     console.log(error);
                 } else {
-                    this.interval = setInterval(this.togglePlaystate(), this.state.duration)
+                    this.togglePlaystate();
+                    this.timer = setTimeout(() => {this.togglePlaystate()}, this.state.duration);
                 }
             })
         }
     }
 
     togglePlaystate(){
-        console.log(this.state.playing);
+        console.log("In togglePlaystate. state.playing is: " + this.state.playing);
         this.setState({playing: !this.state.playing})
+        console.log("state.playing changed to: " + this.state.playing);
         this.props.onTogglePlaying(this.state.playing);
-        console.log("Called togglePlaystate");
-        console.log(this.state.playing);
     }
 
     // componentDidUpdate(prevProps, prevState){

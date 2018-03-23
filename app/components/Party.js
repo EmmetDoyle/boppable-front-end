@@ -31,10 +31,11 @@ export default class Party extends Component {
 
     togglePlaying(playState){
         this.setState({playing: playState});
-        //console.log(this.state.playing);
+        console.log("In togglePlaying: state.playing is: " + this.state.playing);
     }
 
     getTracksFromApi(){
+        console.log("in getTracksFromApi. state.playing is: " + this.state.playing);
         fetch("http://159.65.91.61:8000/parties/0039/")
             .then((response) => response.json())
             .then((responseJson) => {
@@ -43,7 +44,6 @@ export default class Party extends Component {
                 const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
                 if(this.state.playing){
-                    //console.log("here");
                     this.setState({
                         requests: ds.cloneWithRows(responseJson.playlist.tracks),
                         isLoading: false
@@ -70,6 +70,7 @@ export default class Party extends Component {
             //playing didn't change so no need to update
             return false;
         } else {
+            console.log("sCU to return true. current state.playing: " + this.state.playing + "next: " + nextState.playing);
             return true;
         }
     };
