@@ -49,7 +49,39 @@ export default class PlayerContainer extends Component {
         });
     }
 
+    getTrackFromSpotify(callback){
+        return Spotify.getTrack(this.props.track_id, null, callback);
+    }
+
+    playTrack(){
+        Spotify.playURI(this.state.track_uri, 0, 0, (error) => {
+            if (error) {
+                console.log(error);
+            }
+        })
+    }
+
     componentDidMount(){
+        this.getTrackFromSpotify((result, error) => {
+            if(error){
+                console.log(error);
+            }
+
+            if(result){
+                this.setState({
+                    track_name: result.name,
+                    track_artist: result.artists[0].name,
+                    image: result.album.images[1].url,
+                    track_uri: result.uri,
+                    duration: result.duration_ms,
+                })
+            }
+
+            this.playTrack();
+        });
+    }
+
+    _componentDidMount(){
         this.getAndPlayTrack();
     }
 

@@ -21,7 +21,8 @@ export default class Party extends Component {
         this.state = {
             url: "http://159.65.91.61/",
             user: 1,
-            party: '0039',
+            partyID: '0039',
+            party: {},
             playingTrack: {},
             playing: false,
             requests: [],
@@ -72,24 +73,21 @@ export default class Party extends Component {
     }
 
     getPartyFromApi() {
-        return fetch(this.state.url + "parties/" + this.state.party + "/");
+        fetch(this.state.url + "parties/" + this.state.partyID + "/")
+            .then((response) => response.json())
+            .then((partyResponse) => {
+                this.setState({
+                    party: partyResponse,
+                    isLoading: false,
+                })
+            });
+        console.log(this.state.party);
     }
 
 
     componentDidMount(){
         console.log("In componentDidMount");
-        this.getPartyFromApi()
-            .then((response) => response.json())
-            .then((partyResponse) => {
-                if(partyResponse.playlist.tracks.length > 0){
-                    this.setPlayingTrack(partyResponse.playlist.tracks[0]);
-                }
-
-        })
-    }
-
-    setPlayingTrack(track){
-        this.setState({playingTrack: track});
+        this.getPartyFromApi();
     }
 
     componentDidUpdate(){
@@ -125,8 +123,9 @@ export default class Party extends Component {
             <View style={styles.PartyContainer}>
 
                 <PlayerContainer
-                    suggester={this.state.playingTrack.suggester.name}
-                    track_id={this.state.playingTrack.track_id}
+                    suggester={this.state.party.playlist.tracks[0].suggester.name}
+                    track_id={this.state.party.playlist.tracks[0].track_id}
+                    playing={this.state.playing}
                 />
 
             </View>
