@@ -85,7 +85,7 @@ export default class PlayerContainer extends Component {
         this.getAndPlayTrack();
     }
 
-    shouldComponentUpdate(nextProps, nextState){
+    _shouldComponentUpdate(nextProps, nextState){
         if(this.props.playing === nextProps.playing){
             return false;
         } else {
@@ -93,7 +93,7 @@ export default class PlayerContainer extends Component {
         }
     }
 
-    componentDidUpdate(){
+    _componentDidUpdate(){
         this.getAndPlayTrack();
     }
 
@@ -125,6 +125,7 @@ export default class PlayerContainer extends Component {
 
 
     render(){
+        console.log(this.state);
         return(
             <Player
                 image={this.state.image}
