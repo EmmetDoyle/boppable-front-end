@@ -23,31 +23,10 @@ export default class PlayerContainer extends Component {
             duration: 0,
         };
 
-        this.togglePlaystate = this.togglePlaystate.bind(this)
+        this.togglePlaystate = this.togglePlaystate.bind(this);
+        this.calculateEndTime = this.calculateEndTime.bind(this);
     }
 
-    getAndPlayTrack(){
-        Spotify.getTrack(this.props.track_id, null, (result, error) => {
-            if(error){
-                console.log(error);
-            }
-
-            console.log("getAndPlayTrack() previous track is: " + this.state.track_name);
-            //console.log(this.state);
-            if(result){
-                this.setState({
-                    track_name: result.name,
-                    track_artist: result.artists[0].name,
-                    image: result.album.images[1].url,
-                    track_uri: result.uri,
-                    duration: result.duration_ms,
-                })
-            }
-            console.log("getAndPlayTrack() new track is: " + this.state.track_name);
-
-            this.playSong();
-        });
-    }
 
     getTrackFromSpotify(callback){
         return Spotify.getTrack(this.props.track_id, null, callback);
@@ -58,7 +37,15 @@ export default class PlayerContainer extends Component {
             if (error) {
                 console.log(error);
             }
-        })
+        });
+        this.calculateEndTime();
+        this.props.onSetPlaystate(true);
+    }
+
+    calculateEndTime(){
+        let now = Date.now();
+        now += this.state.duration;
+        this.props.onUpdateEndTime(now);
     }
 
     componentDidMount(){
@@ -77,55 +64,48 @@ export default class PlayerContainer extends Component {
                 })
             }
 
-            this.playTrack();
+            if(!this.props.playing){
+                console.log("checking state in PCCDU if playing == false");
+                console.log(this.state);
+                this.playTrack();
+            }
         });
     }
 
-    _componentDidMount(){
-        this.getAndPlayTrack();
-    }
-
-    _shouldComponentUpdate(nextProps, nextState){
-        if(this.props.playing === nextProps.playing){
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    _componentDidUpdate(){
-        this.getAndPlayTrack();
-    }
-
-    componentWillUnmount(){
-        console.log("in componentWillUnmount()");
-        clearTimeout(this.timer);
-    }
-
-    playSong(){
-        console.log("In play song, props.playing is: " + this.props.playing);
-        console.log("In play song, state.track_name is: " + this.state.track_name);
-
-        if(this.state.uri !== "" && !this.props.playing) {
-            Spotify.playURI(this.state.track_uri, 0, 0, (error) => {
-                if (error) {
+    componentDidUpdate(prevProps, prevState){
+        console.log(this.props);
+        console.log(prevProps);
+        if(this.props.track_id !== prevProps.track_id){
+            this.getTrackFromSpotify((result, error) => {
+                if(error){
                     console.log(error);
-                } else {
-                    this.togglePlaystate();
-                    this.timer = setTimeout(() => {this.togglePlaystate()}, this.state.duration);
                 }
-            })
+
+                if(result){
+                    this.setState({
+                        track_name: result.name,
+                        track_artist: result.artists[0].name,
+                        image: result.album.images[1].url,
+                        track_uri: result.uri,
+                        duration: result.duration_ms,
+                    })
+                }
+
+
+                if(!this.props.playing){
+                    this.playTrack();
+                }
+            });
         }
     }
+
 
     togglePlaystate(){
-        this.setState({playing: !this.state.playing});
-        this.props.onTogglePlaying(this.state.playing);
+        this.props.onTogglePlaying();
     }
 
 
     render(){
-        console.log(this.state);
         return(
             <Player
                 image={this.state.image}

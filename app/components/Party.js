@@ -25,12 +25,24 @@ export default class Party extends Component {
             partyID: '0039',
             party: {},
             playingTrack: {},
+            endTime: 0,
             playing: false,
             requests: [],
             isLoading: true,
         };
 
         this.togglePlaying = this.togglePlaying.bind(this);
+        this.updateEndTime = this.updateEndTime.bind(this);
+        this.setPlaystate = this.setPlaystate.bind(this);
+    }
+
+    updateEndTime(newTime){
+        this.setState({endTime: newTime});
+    }
+
+    setPlaystate(state){
+        console.log("setting playState to " + state);
+        this.setState({playing: state});
     }
 
     togglePlaying(playState){
@@ -42,22 +54,19 @@ export default class Party extends Component {
     }
 
     deleteTrackFromPlaylist(){
-        console.log("Deleting track: " + this.state.playingTrack.id);
-        return fetch("http://159.65.91.61/trackvoting/" + this.state.playingTrack.id, {
+        console.log("Deleting track: " + this.state.party.playlist.tracks[0].id);
+        return fetch("http://159.65.91.61/trackvoting/" + this.state.party.playlist.tracks[0].id, {
             method: 'delete'
         })
     }
 
     getTracksFromApi(){
-        console.log("in getTracksFromApi. state.playing is: " + this.state.playing);
+        // console.log("in getTracksFromApi. state.playing is: " + this.state.playing);
         fetch("http://159.65.91.61/parties/0039/")
             .then((response) => response.json())
             .then((responseJson) => {
-                console.log(responseJson.playlist);
 
                 const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-
-                console.log("In getTracksFromApi() playing == " + this.state.playing);
                 if(this.state.playing){
                     this.setState({
                         requests: ds.cloneWithRows(responseJson.playlist.tracks),
@@ -82,17 +91,30 @@ export default class Party extends Component {
                     isLoading: false,
                 })
             });
-        console.log(this.state.party);
+        // console.log(this.state.party);
     }
 
+    refreshParty() {
+        if(this.state.endTime < Date.now() && this.state.playing){
+            this.deleteTrackFromPlaylist();
+                // .then(this.getPartyFromApi());
+            this.setState({playing: false});
+        } else {
+            this.getPartyFromApi();
+        }
+    }
 
     componentDidMount(){
-        console.log("In componentDidMount");
+        this.interval = setInterval(() => {this.refreshParty()}, 5000);
         this.getPartyFromApi();
     }
 
+    componentWillUnmount() {
+        clearInterval(this.interval);
+    }
+
     componentDidUpdate(){
-        console.log(this.state);
+        // console.log(this.state);
     }
 
     _shouldComponentUpdate(nextProps, nextState){
@@ -131,6 +153,8 @@ export default class Party extends Component {
                         suggester={this.state.party.playlist.tracks[0].suggester.name}
                         track_id={this.state.party.playlist.tracks[0].track_id}
                         playing={this.state.playing}
+                        onUpdateEndTime={this.updateEndTime}
+                        onSetPlaystate={this.setPlaystate}
                     />
 
                     <RequestList
