@@ -14,10 +14,12 @@ import RequestList from "./RequestList";
 import Spotify from "react-native-spotify";
 
 export default class Party extends Component {
+
     constructor(props){
         super(props);
 
         this.state = {
+            url: "http://159.65.91.61/",
             user: 1,
             party: '0039',
             playingTrack: {},
@@ -69,12 +71,32 @@ export default class Party extends Component {
             })
     }
 
-    componentDidMount(){
-        console.log("In componentDidMount");
-        this.getTracksFromApi();
+    getPartyFromApi() {
+        return fetch(this.state.url + "parties/" + this.state.party + "/");
     }
 
-    shouldComponentUpdate(nextProps, nextState){
+
+    componentDidMount(){
+        console.log("In componentDidMount");
+        this.getPartyFromApi()
+            .then((response) => response.json())
+            .then((partyResponse) => {
+                if(partyResponse.playlist.tracks.length > 0){
+                    this.setPlayingTrack(partyResponse.playlist.tracks[0]);
+                }
+
+        })
+    }
+
+    setPlayingTrack(track){
+        this.setState({playingTrack: track});
+    }
+
+    componentDidUpdate(){
+        console.log(this.state);
+    }
+
+    _shouldComponentUpdate(nextProps, nextState){
         if(this.state.playing == nextState.playing){
             if(this.state.isLoading != nextState.isLoading){
                 return true;
@@ -86,7 +108,7 @@ export default class Party extends Component {
         }
     };
 
-    componentDidUpdate(){
+    _componentDidUpdate(){
         console.log("In componentDidUpdate");
         this.getTracksFromApi();
     }
@@ -105,12 +127,6 @@ export default class Party extends Component {
                 <PlayerContainer
                     suggester={this.state.playingTrack.suggester.name}
                     track_id={this.state.playingTrack.track_id}
-                    playing={this.state.playing}
-                    onTogglePlaying={this.togglePlaying}
-                />
-
-                <RequestList
-                    requests={this.state.requests}
                 />
 
             </View>
