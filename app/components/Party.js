@@ -12,6 +12,7 @@ import Navbar from "./Navbar";
 import PlayerContainer from "./PlayerContainer";
 import RequestList from "./RequestList";
 import Spotify from "react-native-spotify";
+import Request from "./Request";
 
 export default class Party extends Component {
 
@@ -112,24 +113,33 @@ export default class Party extends Component {
     }
 
     render(){
+
         if(this.state.isLoading){
             return(
                 <View style={styles.RequestsContainer}>
                     <ActivityIndicator />
                 </View>
             )
+        } else {
+            const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+            let requests = ds.cloneWithRows(this.state.party.playlist.tracks.slice(1));
+
+            return (
+                <View style={styles.PartyContainer}>
+
+                    <PlayerContainer
+                        suggester={this.state.party.playlist.tracks[0].suggester.name}
+                        track_id={this.state.party.playlist.tracks[0].track_id}
+                        playing={this.state.playing}
+                    />
+
+                    <RequestList
+                        requests={requests}
+                    />
+
+                </View>
+            )
         }
-        return(
-            <View style={styles.PartyContainer}>
-
-                <PlayerContainer
-                    suggester={this.state.party.playlist.tracks[0].suggester.name}
-                    track_id={this.state.party.playlist.tracks[0].track_id}
-                    playing={this.state.playing}
-                />
-
-            </View>
-        )
     }
 }
 
