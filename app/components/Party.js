@@ -30,19 +30,30 @@ export default class Party extends Component {
     }
 
     togglePlaying(playState){
-        this.setState({playing: playState});
-        console.log("In togglePlaying: state.playing is: " + this.state.playing);
+        if(playState){
+            this.deleteTrackFromPlaylist().then(() => this.setState({playing: playState}));
+        } else {
+            this.setState({playing: playState});
+        }
+    }
+
+    deleteTrackFromPlaylist(){
+        console.log("Deleting track: " + this.state.playingTrack.id);
+        return fetch("http://159.65.91.61/trackvoting/" + this.state.playingTrack.id, {
+            method: 'delete'
+        })
     }
 
     getTracksFromApi(){
         console.log("in getTracksFromApi. state.playing is: " + this.state.playing);
-        fetch("http://159.65.91.61:8000/parties/0039/")
+        fetch("http://159.65.91.61/parties/0039/")
             .then((response) => response.json())
             .then((responseJson) => {
-                //console.log(this.state.playing);
+                console.log(responseJson.playlist);
 
                 const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
+                console.log("In getTracksFromApi() playing == " + this.state.playing);
                 if(this.state.playing){
                     this.setState({
                         requests: ds.cloneWithRows(responseJson.playlist.tracks),
@@ -51,7 +62,7 @@ export default class Party extends Component {
                 }else{
                     this.setState({
                         playingTrack: responseJson.playlist.tracks[0],
-                        requests: ds.cloneWithRows(responseJson.playlist.tracks.slice(1,-1)),
+                        requests: ds.cloneWithRows(responseJson.playlist.tracks.slice(1)),
                         isLoading: false
                     });
                 }
@@ -59,6 +70,7 @@ export default class Party extends Component {
     }
 
     componentDidMount(){
+        console.log("In componentDidMount");
         this.getTracksFromApi();
     }
 
@@ -70,12 +82,12 @@ export default class Party extends Component {
             //playing didn't change so no need to update
             return false;
         } else {
-            console.log("sCU to return true. current state.playing: " + this.state.playing + "next: " + nextState.playing);
             return true;
         }
     };
 
     componentDidUpdate(){
+        console.log("In componentDidUpdate");
         this.getTracksFromApi();
     }
 

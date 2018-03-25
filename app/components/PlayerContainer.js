@@ -12,7 +12,7 @@ import Player from "./Player";
 export default class PlayerContainer extends Component {
 
     constructor(props){
-        super(props)
+        super(props);
 
         this.state = {
             track_name: "",
@@ -21,7 +21,7 @@ export default class PlayerContainer extends Component {
             image: "",
             playing: false,
             duration: 0,
-        }
+        };
 
         this.togglePlaystate = this.togglePlaystate.bind(this)
     }
@@ -32,7 +32,7 @@ export default class PlayerContainer extends Component {
                 console.log(error);
             }
 
-
+            console.log("getAndPlayTrack() previous track is: " + this.state.track_name);
             //console.log(this.state);
             if(result){
                 this.setState({
@@ -43,9 +43,9 @@ export default class PlayerContainer extends Component {
                     duration: result.duration_ms,
                 })
             }
+            console.log("getAndPlayTrack() new track is: " + this.state.track_name);
 
             this.playSong();
-            console.log(this.state.duration);
         });
     }
 
@@ -54,7 +54,7 @@ export default class PlayerContainer extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState){
-        if(this.props.playing == nextProps.playing){
+        if(this.props.playing === nextProps.playing){
             return false;
         } else {
             return true;
@@ -72,8 +72,9 @@ export default class PlayerContainer extends Component {
 
     playSong(){
         console.log("In play song, props.playing is: " + this.props.playing);
+        console.log("In play song, state.track_name is: " + this.state.track_name);
 
-        if(this.state.uri != "" && !this.props.playing) {
+        if(this.state.uri !== "" && !this.props.playing) {
             Spotify.playURI(this.state.track_uri, 0, 0, (error) => {
                 if (error) {
                     console.log(error);
@@ -86,36 +87,9 @@ export default class PlayerContainer extends Component {
     }
 
     togglePlaystate(){
-        console.log("In togglePlaystate. state.playing is: " + this.state.playing);
-        this.setState({playing: !this.state.playing})
-        console.log("state.playing changed to: " + this.state.playing);
+        this.setState({playing: !this.state.playing});
         this.props.onTogglePlaying(this.state.playing);
     }
-
-    // componentDidUpdate(prevProps, prevState){
-    //     if(!this.state.playing){
-    //         Spotify.getPlaybackStateAsync((result, error) => {
-    //             if (error) {
-    //                 console.log(error);
-    //             }
-    //
-    //             if (result) {
-    //                 console.log(result);
-    //
-    //                 this.setState({playing: result.playing})
-    //                 if(this.state.playing){
-    //                     this.togglePlaystate()
-    //                 }
-    //             }
-    //         })
-    //     } else {
-    //         this.interval = setInterval(this.togglePlaystate, this.state.duration)
-    //     }
-    // }
-    //
-    // componentWillUnmount(){
-    //     clearInterval(this.interval);
-    // }
 
 
     render(){

@@ -54,7 +54,7 @@ export default class Request extends Component {
     onUpVote(){
         Alert.alert("upvote pressed!");
 
-        fetch('http://159.65.91.61:8000/trackvoting/' + this.props.trackVotingID + '/upvote')
+        fetch('http://159.65.91.61/trackvoting/' + this.props.trackVotingID + '/upvote')
             .then((response) => {
                 console.log(response.status);
             })
@@ -63,7 +63,7 @@ export default class Request extends Component {
     onDownVote(){
         Alert.alert("downvote pressed!");
 
-        fetch('http://159.65.91.61:8000/trackvoting/' + this.props.trackVotingID + '/downvote')
+        fetch('http://159.65.91.61/trackvoting/' + this.props.trackVotingID + '/downvote')
             .then((response) => {
                 console.log(response.status);
             })

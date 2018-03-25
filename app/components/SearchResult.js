@@ -37,7 +37,7 @@ export default class SearchResult extends Component {
     trackDoesExist(){
         //console.log("Before exists check");
         //console.log(this.props.requestID);
-        fetch('http://159.65.91.61:8000/trackvoting/exists/', {
+        fetch('http://159.65.91.61/trackvoting/exists/', {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -59,7 +59,7 @@ export default class SearchResult extends Component {
 
     onPressButton() {
         //console.log("Before fetch");
-        fetch('http://159.65.91.61:8000/trackvoting/', {
+        fetch('http://159.65.91.61/trackvoting/', {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
