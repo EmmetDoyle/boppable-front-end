@@ -33,10 +33,9 @@ export default class Player extends Component {
                         </View>
                         <View style={styles.PlayerSuggestedBy}>
                             <Text style={styles.PlayerSuggestedByText}>
-                                Suggested by:
-                            </Text>
-                            <Text style={styles.PlayerSuggesterText}>
+                                Suggested by: <Text style={styles.PlayerSuggesterText}>
                                 {this.props.suggester}
+                            </Text>
                             </Text>
                         </View>
                     </View>
@@ -50,7 +49,7 @@ const styles = StyleSheet.create({
 
     //Player
     PlayerContainer: {
-        backgroundColor: 'green',
+        backgroundColor: '#121212',
         flex: 3,
     },
     PlayerComponents: {
@@ -59,8 +58,7 @@ const styles = StyleSheet.create({
         padding: 8,
     },
     PlayerTrackImageContainer: {
-        flex: 2,
-        borderRadius: 6,
+        flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -68,17 +66,21 @@ const styles = StyleSheet.create({
 
     },
     PlayerTrackInfoContainter: {
-        flex: 3,
+        flex: 1,
         padding: 8,
     },
     PlayerTrackDetails: {
         flex: 1,
     },
     PlayerTrackTitle: {
-
+        fontWeight: 'bold',
+        fontSize: 20,
+        color: 'white'
     },
     PlayerTrackArtist: {
-
+        fontWeight: '100',
+        fontSize: 20,
+        color: 'white'
     },
     PlayerSuggestedBy: {
         flex: 1,
@@ -86,10 +88,13 @@ const styles = StyleSheet.create({
         alignItems: 'flex-end',
     },
     PlayerSuggestedByText: {
-        flex: 1,
+        fontWeight: '200',
+        fontSize: 12,
+        color: 'white',
     },
     PlayerSuggesterText: {
-        flex: 1,
+        fontSize: 12,
+        color: 'white',
         fontWeight: 'bold',
     },
 

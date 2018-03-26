@@ -54,7 +54,7 @@ export const Tabs = TabNavigator({
             backgroundColor: '#ffffff',
         },
         style: {
-            backgroundColor: '#00bb33',
+            backgroundColor: '#1ed760',
         }
     },
 });

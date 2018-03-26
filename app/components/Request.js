@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 
 import Spotify from 'react-native-spotify';
+import VoteButton from "./VoteButton";
 
 
 export default class Request extends Component {
@@ -74,12 +75,7 @@ export default class Request extends Component {
             <View style={styles.RequestContainer}>
                 <View style={styles.Request}>
                     <View style={styles.RequestDownVoteContainer}>
-                        <Button
-                            style={styles.RequestDownVote}
-                            title="V"
-                            onPress={this.onDownVote}
-                            color={'#00bb33'}
-                        />
+                        <VoteButton downvote/>
                     </View>
                     <View style={styles.RequestTrackImageContainer}>
                         <Image source={{uri: this.state.image}}
@@ -94,11 +90,6 @@ export default class Request extends Component {
                                 {this.state.track_artist}
                             </Text>
                         </View>
-                        <View style={styles.RequestSuggestedBy}>
-                            <Text style={styles.RequestSuggestedByText}>
-                                {this.props.suggester}
-                            </Text>
-                        </View>
                     </View>
                     <View style={styles.RequestVoteCountContainer}>
                         <Text style={styles.RequestVoteCount}>
@@ -106,12 +97,7 @@ export default class Request extends Component {
                         </Text>
                     </View>
                     <View style={styles.RequestUpVoteContainer}>
-                        <Button
-                            style={styles.RequestUpVote}
-                            title="^"
-                            onPress={this.onUpVote}
-                            color={'#00bb33'}
-                        />
+                        <VoteButton upvote/>
                     </View>
                 </View>
             </View>
@@ -132,7 +118,7 @@ const styles = StyleSheet.create({
     Request: {
         flexDirection: 'row',
         height: 75,
-        backgroundColor: '#303030',
+        backgroundColor: '#212121',
     },
     RequestDownVoteContainer: {
         flex: 1,
@@ -150,13 +136,15 @@ const styles = StyleSheet.create({
     },
     RequestTrackInfoContainer: {
         flex: 2,
-        padding: 4,
+        paddingLeft: 10,
+        paddingTop: 5,
     },
     RequestTrackDetails: {
         flex: 2,
     },
     RequestTrackTitle:{
         color: 'white',
+        fontWeight: 'bold',
     },
     RequestTrackArtist:{
         color: 'white',
@@ -174,17 +162,33 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     RequestVoteCount: {
-        fontSize: 35,
-        fontWeight: 'bold',
+        fontSize: 28,
         color: 'white',
     },
     RequestUpVoteContainer: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center',
+        alignSelf: 'center',
     },
     RequestUpVote: {
         fontSize: 50,
     },
 
 });
+
+/*
+* <Button
+                            style={styles.RequestUpVote}
+                            title="^"
+                            onPress={this.onUpVote}
+                            color={'#1ed760'}
+                        />
+
+  <Button
+                            style={styles.RequestDownVote}
+                            title="V"
+                            onPress={this.onDownVote}
+                            color={'#00bb33'}
+                        />
+*
+* */

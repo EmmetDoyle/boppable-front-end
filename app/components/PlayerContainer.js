@@ -121,7 +121,6 @@ const styles = StyleSheet.create({
 
     //Player
     PlayerContainer: {
-        backgroundColor: 'green',
         flex: 3,
     },
     PlayerComponents: {
