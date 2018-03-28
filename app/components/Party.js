@@ -209,7 +209,6 @@ const styles = StyleSheet.create({
     },
     PlayerTrackImageContainer: {
         flex: 2,
-        backgroundColor: '#cccccc',
         borderRadius: 6,
         justifyContent: 'center',
         alignItems: 'center',
@@ -246,8 +245,9 @@ const styles = StyleSheet.create({
     //Requests
 
     RequestsContainer: {
-        backgroundColor: '#bbbbbb',
-        flex: 7,
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     RequestListTitleContainer: {
         justifyContent: 'center',

@@ -64,8 +64,8 @@ export default class SearchResultList extends Component
     {
         if(this.props.searchQuery === ""){
             return(
-                <View>
-                    <Text style={styles.RequestListTitle}>Search here, bitch!</Text>
+                <View style={styles.SearchInstructionsContainer}>
+                    <Text style={styles.SearchInstructions}>Add songs to the playlist here!</Text>
                 </View>
             )
         }
@@ -107,6 +107,19 @@ const styles = StyleSheet.create({
         fontSize: 20,
         textAlign: 'center',
         margin: 10,
+    },
+
+    SearchInstructionsContainer: {
+        flex: 11,
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 20,
+    },
+    SearchInstructions: {
+        fontSize: 30,
+        color: 'white',
+        textAlign: 'center',
+        fontWeight: 'bold',
     },
 
     RequestsContainer: {

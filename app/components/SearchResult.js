@@ -91,7 +91,7 @@ export default class SearchResult extends Component {
                 <View style={styles.Result}>
                     <View style={styles.ResultTrackImageContainer}>
                         <Image source={{uri: this.props.image}}
-                               style={{width: 75, height: 75}} />
+                               style={{width: 70, height: 70}} />
                     </View>
                     <View style={styles.ResultTrackInfoContainer}>
                         <Text style={styles.RequestTrackTitle}>
@@ -117,15 +117,15 @@ export default class SearchResult extends Component {
 const styles = StyleSheet.create({
 
     ResultContainer: {
-        height: 85,
-        paddingTop: 5,
-        paddingBottom: 5,
+        height: 76,
+        paddingTop: 3,
+        paddingBottom: 3,
         flexDirection: 'column',
         alignItems: 'stretch',
     },
     Result: {
         flexDirection: 'row',
-        height: 75,
+        height: 70,
         backgroundColor: '#2D2B2A',
     },
     ResultTrackImageContainer: {
