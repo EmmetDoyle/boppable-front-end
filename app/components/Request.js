@@ -75,7 +75,7 @@ export default class Request extends Component {
             <View style={styles.RequestContainer}>
                 <View style={styles.Request}>
                     <View style={styles.RequestDownVoteContainer}>
-                        <VoteButton downvote/>
+                        <VoteButton downvote onPress={this.onDownVote}/>
                     </View>
                     <View style={styles.RequestTrackImageContainer}>
                         <Image source={{uri: this.state.image}}
@@ -97,7 +97,7 @@ export default class Request extends Component {
                         </Text>
                     </View>
                     <View style={styles.RequestUpVoteContainer}>
-                        <VoteButton upvote/>
+                        <VoteButton upvote onPress={this.onUpVote}/>
                     </View>
                 </View>
             </View>
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     Request: {
         flexDirection: 'row',
         height: 75,
-        backgroundColor: '#212121',
+        backgroundColor: '#2D2B2A',
     },
     RequestDownVoteContainer: {
         flex: 1,
@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     RequestTrackArtist:{
-        color: 'white',
+        color: '#A3A1A1',
     },
     RequestSuggestedBy: {
         flex: 1,
@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
                             style={styles.RequestUpVote}
                             title="^"
                             onPress={this.onUpVote}
-                            color={'#1ed760'}
+                            color={'#11da58'}
                         />
 
   <Button

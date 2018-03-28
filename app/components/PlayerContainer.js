@@ -65,16 +65,14 @@ export default class PlayerContainer extends Component {
             }
 
             if(!this.props.playing){
-                console.log("checking state in PCCDU if playing == false");
-                console.log(this.state);
+                // console.log("checking state in PCCDU if playing == false");
+                // console.log(this.state);
                 this.playTrack();
             }
         });
     }
 
     componentDidUpdate(prevProps, prevState){
-        console.log(this.props);
-        console.log(prevProps);
         if(this.props.track_id !== prevProps.track_id){
             this.getTrackFromSpotify((result, error) => {
                 if(error){

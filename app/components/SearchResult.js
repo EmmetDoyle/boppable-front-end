@@ -5,12 +5,14 @@ import {
     StyleSheet,
     View,
     Text,
-    ListView,
     Button,
     Image,
 } from 'react-native';
 
+import FormData from 'FormData';
+
 import Spotify from 'react-native-spotify';
+import VoteButton from "./VoteButton";
 
 export default class SearchResult extends Component {
 
@@ -27,21 +29,18 @@ export default class SearchResult extends Component {
     }
 
     componentDidMount(){
-        //this.trackDoesExist();
+        this.trackDoesExist();
     }
 
     componentDidUpdate(){
-
+        this.trackDoesExist();
     };
 
     trackDoesExist(){
-        //console.log("Before exists check");
-        //console.log(this.props.requestID);
         fetch('http://159.65.91.61/trackvoting/exists/', {
             method: 'POST',
             headers: {
-                Accept: 'application/json',
-                'Accept-Encoding': "",
+                'Accept' : 'application/json',
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
@@ -49,32 +48,41 @@ export default class SearchResult extends Component {
                 playlist: 1,
             }),
         }).then((response) => {
-            //console.log(response);
             return response.json();
         }).then((responseJson) => {
             this.setState({exists: responseJson.exists})
         })
-        //console.log("After exists check");
     }
 
     onPressButton() {
-        //console.log("Before fetch");
-        fetch('http://159.65.91.61/trackvoting/', {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                track_id: this.props.requestID,
-                votes: 1,
-                playlist: 1,
-                suggester: 1,
-            }),
-        }).then((response) => {
-            //console.log(response);
-        })
-        Alert.alert("Song requested!");
+        if(this.state.exists){
+            fetch('http://159.65.91.61/trackvoting/' + this.props.trackVotingID + '/upvote')
+                .then((response) => {
+                    console.log(response.status);
+                })
+            Alert.alert("upvote pressed!");
+        } else {
+            //console.log("Before fetch");
+            fetch('http://159.65.91.61/trackvoting/', {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    track_id: this.props.requestID,
+                    votes: 1,
+                    playlist: 1,
+                    suggester: 1,
+                }),
+            })
+
+            this.setState({
+                exists: !this.state.exists
+            })
+
+            Alert.alert("Song requested!");
+        }
     }
 
     render(){
@@ -83,26 +91,21 @@ export default class SearchResult extends Component {
                 <View style={styles.Result}>
                     <View style={styles.ResultTrackImageContainer}>
                         <Image source={{uri: this.props.image}}
-                               style={{width: 85, height: 85}} />
+                               style={{width: 75, height: 75}} />
                     </View>
                     <View style={styles.ResultTrackInfoContainer}>
-                        <View style={styles.RequestTrackTitleContainer}>
-                            <Text style={styles.RequestTrackTitle}>
-                                {this.props.requestTrack}
-                            </Text>
-                        </View>
-                        <View style={styles.RequestTrackArtistContainer}>
-                            <Text style={styles.RequestTrackArtist}>
-                                {this.props.requestArtist}
-                            </Text>
-                        </View>
+                        <Text style={styles.RequestTrackTitle}>
+                            {this.props.requestTrack}
+                        </Text>
+                        <Text style={styles.RequestTrackArtist}>
+                            {this.props.requestArtist}
+                        </Text>
                     </View>
                     <View style={styles.RequestTrackContainer}>
-                        <Button
-                            style={styles.RequestTrack}
-                            title={this.state.buttonOption}
+                        <VoteButton
+                            bop
+                            exists={this.state.exists}
                             onPress={this.onPressButton}
-                            color={'#00bb33'}
                         />
                     </View>
                 </View>
@@ -114,7 +117,7 @@ export default class SearchResult extends Component {
 const styles = StyleSheet.create({
 
     ResultContainer: {
-        height: 95,
+        height: 85,
         paddingTop: 5,
         paddingBottom: 5,
         flexDirection: 'column',
@@ -122,8 +125,8 @@ const styles = StyleSheet.create({
     },
     Result: {
         flexDirection: 'row',
-        height: 85,
-        backgroundColor: '#303030',
+        height: 75,
+        backgroundColor: '#2D2B2A',
     },
     ResultTrackImageContainer: {
         flex: 1,
@@ -139,13 +142,14 @@ const styles = StyleSheet.create({
     },
     RequestTrackTitle:{
         color: 'white',
+        fontWeight: 'bold',
+        fontSize: 15,
     },
     RequestTrackArtistContainer: {
         flex: 1,
     },
     RequestTrackArtist:{
-        color: 'white',
-        fontWeight: 'bold',
+        color: '#A3A1A1',
     },
     ResultTrackDetails: {
         flex: 2,
@@ -155,8 +159,14 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    RequestTrack: {
-
-    },
 
 });
+
+/*
+<Button
+                            style={styles.RequestTrack}
+                            title={this.state.buttonOption}
+                            onPress={this.onPressButton}
+                            color={'#00bb33'}
+                        />
+ */

@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
 
     //Player
     PlayerContainer: {
-        backgroundColor: '#121212',
+        backgroundColor: '#191414',
         flex: 3,
     },
     PlayerComponents: {
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     PlayerTrackArtist: {
         fontWeight: '100',
         fontSize: 20,
-        color: 'white'
+        color: '#A3A1A1'
     },
     PlayerSuggestedBy: {
         flex: 1,

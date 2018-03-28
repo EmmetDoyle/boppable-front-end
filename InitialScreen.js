@@ -16,10 +16,13 @@ import {
 	StyleSheet,
 	Text,
 	TouchableHighlight,
-	View
+	View,
+	Image,
+	Dimensions,
 } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import Spotify from 'react-native-spotify';
+import LocalImage from "./app/components/LocalImage";
 
 export class InitialScreen extends Component
 {
@@ -118,12 +121,17 @@ export class InitialScreen extends Component
 		{
 			return (
 				<View style={styles.container}>
-					<Text style={styles.greeting}>
-						Hey! You! Log into your spotify
-					</Text>
-					<TouchableHighlight onPress={this.spotifyLoginButtonWasPressed} style={styles.spotifyLoginButton}>
-						<Text style={styles.spotifyLoginButtonText}>Log into Spotify</Text>
-					</TouchableHighlight>
+					<View style={styles.boppableLogoContainer}>
+                        <Image
+                            source={require('./app/images/logoGreen/logoGreen.png')}
+                            style={styles.boppableLogo}
+                        />
+					</View>
+					<View style={styles.spotifyLoginButtonContainer}>
+						<TouchableHighlight onPress={this.spotifyLoginButtonWasPressed} style={styles.spotifyLoginButton}>
+							<Text style={styles.spotifyLoginButtonText}>Connect with Spotify</Text>
+						</TouchableHighlight>
+					</View>
 				</View>
 			);
 		}
@@ -135,7 +143,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center',
-		backgroundColor: '#F5FCFF',
+		backgroundColor: '#191414',
 	},
 
 	loadIndicator: {
@@ -147,13 +155,26 @@ const styles = StyleSheet.create({
 		margin: 10,
 	},
 
+	boppableLogoContainer:{
+        flex: 3,
+		alignItems: 'center',
+		justifyContent: 'center',
+		alignSelf: 'stretch',
+	},
+	boppableLogo:{
+
+	},
+
+    spotifyLoginButtonContainer:{
+		flex: 1,
+	},
 	spotifyLoginButton: {
 		justifyContent: 'center',
-		borderRadius: 18,
-		backgroundColor: 'green',
+		borderRadius: 30,
+		backgroundColor: '#11DA58',
 		overflow: 'hidden',
-		width: 200,
-		height: 40,
+		width: 240,
+		height: 60,
 		margin: 20,
 	},
 	spotifyLoginButtonText: {

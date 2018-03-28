@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     },
     searchBar: {
         alignSelf: 'stretch',
-        backgroundColor: '#303030',
+        backgroundColor: '#2D2B2A',
         color: 'white',
     },
 

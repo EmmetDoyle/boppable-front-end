@@ -55,13 +55,20 @@ export default class SearchResultList extends Component
     }
 
     componentDidUpdate(prevProps){
-        if(this.props.searchQuery != prevProps.searchQuery){
+        if(this.props.searchQuery !== prevProps.searchQuery){
             this.searchTracks()
         }
     }
 
     render()
     {
+        if(this.props.searchQuery === ""){
+            return(
+                <View>
+                    <Text style={styles.RequestListTitle}>Search here, bitch!</Text>
+                </View>
+            )
+        }
         if(this.state.isLoading){
             return(
                 <View style={styles.RequestsContainer}>
